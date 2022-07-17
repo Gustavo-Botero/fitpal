@@ -39,4 +39,13 @@ interface HorarioClaseRepositoryInterface {
      * @return boolean
      */
     public function delete(int $id): bool;
+
+    /**
+     * Función para actualizar un horario de clase
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return HorarioClaseModel
+     */
+    public function update(Request $request, int $id): HorarioClaseModel;
 }

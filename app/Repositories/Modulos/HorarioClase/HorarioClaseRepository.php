@@ -80,4 +80,22 @@ class HorarioClaseRepository implements HorarioClaseRepositoryInterface {
     {
         return $this->getById($id)->delete();
     }
+
+    /**
+     * Función para actualizar un horario de clase
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return HorarioClaseModel
+     */
+    public function update(Request $request, int $id): HorarioClaseModel
+    {
+        $horarioClase = $this->getById($id);
+        $horarioClase->clase_id = $request->clase_id;
+        $horarioClase->horario = $request->horario;
+        $horarioClase->instructor = $request->instructor;
+        $horarioClase->update();
+
+        return $horarioClase;
+    }
 }

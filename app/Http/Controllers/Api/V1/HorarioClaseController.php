@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\UseCases\Contracts\Modulos\HorarioClases\CreateHorarioClaseInterface;
+use App\UseCases\Contracts\Modulos\HorarioClases\UpdateHorarioClaseInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\DestroyHorarioClaseInterface;
 
 class HorarioClaseController extends Controller
@@ -25,18 +26,28 @@ class HorarioClaseController extends Controller
     protected $destroyHorarioClase;
 
     /**
+     * Implementación de UpdateHorarioClaseInterface
+     *
+     * @var UpdateHorarioClaseInterface
+     */
+    protected $updateHorarioClase;
+
+    /**
      * Inyección de dependencias
      *
      * @param CreateHorarioClaseInterface $createHorarioClase
      * @param DestroyHorarioClaseInterface $destroyHorarioClase
+     * @param UpdateHorarioClaseInterface $updateHorarioClase
      */
     public function __construct(
         CreateHorarioClaseInterface $createHorarioClase,
-        DestroyHorarioClaseInterface $destroyHorarioClase
+        DestroyHorarioClaseInterface $destroyHorarioClase,
+        UpdateHorarioClaseInterface $updateHorarioClase
     )
     {
         $this->createHorarioClase = $createHorarioClase;
         $this->destroyHorarioClase = $destroyHorarioClase;
+        $this->updateHorarioClase = $updateHorarioClase;
     }
 
     /**
@@ -75,15 +86,18 @@ class HorarioClaseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Función para actualizar un horario de clase
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param integer $id
+     * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): Response
     {
-        //
+        return response(
+            $this->updateHorarioClase->handle($request, $id),
+            200
+        );
     }
 
     /**

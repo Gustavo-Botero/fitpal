@@ -2,12 +2,13 @@
 
 namespace App\UseCases\Modulos\HorarioClase;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\UseCases\Contracts\Modulos\HorarioClases\CreateHorarioClaseInterface;
+
+use Carbon\Carbon;
+use App\UseCases\Contracts\Modulos\HorarioClases\UpdateHorarioClaseInterface;
 use App\Repositories\Contracts\Modulos\HorarioClase\HorarioClaseRepositoryInterface;
 
-class CreateHorarioClaseUseCase implements CreateHorarioClaseInterface {
+class UpdateHorarioClaseUseCase implements  UpdateHorarioClaseInterface{
 
     /**
      * Implementación de HorarioClaseRepositoryInterface
@@ -23,17 +24,19 @@ class CreateHorarioClaseUseCase implements CreateHorarioClaseInterface {
      */
     public function __construct(
         HorarioClaseRepositoryInterface $horarioClaseRepository
-    ) {
+    )
+    {
         $this->horarioClaseRepository = $horarioClaseRepository;
     }
 
     /**
-     * Función para crear un horario para la clase
+     * Función para actualiza un horario de clase
      *
      * @param Request $request
+     * @param integer $id
      * @return array
      */
-    public function handle(Request $request): array
+    public function handle(Request $request, int $id): array
     {
         $date = new Carbon($request->horario);
 
@@ -45,9 +48,9 @@ class CreateHorarioClaseUseCase implements CreateHorarioClaseInterface {
         );
 
         if (empty($data)) {
-            $title = 'Horario de la clase se guardo exitosamente.';
+            $title = 'Horario de la clase se actualizo exitosamente.';
             $icon = 'success';
-            $data[0] = $this->horarioClaseRepository->create($request);
+            $data[0] = $this->horarioClaseRepository->update($request, $id);
         }
 
         return [
