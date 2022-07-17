@@ -11,10 +11,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HorarioClaseControllerTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * Función para comprobar la creación de una clase
-     *
-     * @return void
      */
     public function test_store_class_schedule()
     {
@@ -54,8 +53,6 @@ class HorarioClaseControllerTest extends TestCase
 
     /**
      * Función para comprobar que ya existe un clase con el mismo horario
-     *
-     * @return void
      */
     public function test_store_different_class_schedule()
     {
@@ -75,6 +72,25 @@ class HorarioClaseControllerTest extends TestCase
                 'horario' => $horarioClase['horario'],
                 'instructor' => $horarioClase['instructor']
             ]
+        ]);
+    }
+
+    /**
+     * Función para eliminar un horario de clase
+     */
+    public function test_destroy_class_schedule()
+    {
+        $horarioClase = HorarioClaseModel::factory()->create();
+
+        $response = $this->deleteJson("api/v1/horarioClase/$horarioClase->id");
+
+        $this->assertDatabaseMissing('horario_clase', ['id' => $horarioClase->id]);
+
+        $response->assertExactJson([
+            'alert' => true,
+            'icon' => 'info',
+            'title' => 'El horario fue eliminado correctamente',
+            'limpiarForm' => 'horarioClase'
         ]);
     }
 }

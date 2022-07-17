@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\UseCases\Contracts\Modulos\HorarioClases\CreateHorarioClaseInterface;
+use App\UseCases\Contracts\Modulos\HorarioClases\DestroyHorarioClaseInterface;
 
 class HorarioClaseController extends Controller
 {
@@ -14,18 +15,28 @@ class HorarioClaseController extends Controller
      *
      * @var CreateHorarioClaseInterface
      */
-    protected $horarioClase;
+    protected $createHorarioClase;
+
+    /**
+     * Implementación de DestroyHorarioClaseInterface
+     *
+     * @var DestroyHorarioClaseInterface
+     */
+    protected $destroyHorarioClase;
 
     /**
      * Inyección de dependencias
      *
-     * @param CreateHorarioClaseInterface $horarioClase
+     * @param CreateHorarioClaseInterface $createHorarioClase
+     * @param DestroyHorarioClaseInterface $destroyHorarioClase
      */
     public function __construct(
-        CreateHorarioClaseInterface $horarioClase
+        CreateHorarioClaseInterface $createHorarioClase,
+        DestroyHorarioClaseInterface $destroyHorarioClase
     )
     {
-        $this->horarioClase = $horarioClase;
+        $this->createHorarioClase = $createHorarioClase;
+        $this->destroyHorarioClase = $destroyHorarioClase;
     }
 
     /**
@@ -47,7 +58,7 @@ class HorarioClaseController extends Controller
     public function store(Request $request): Response
     {
         return response(
-            $this->horarioClase->handle($request),
+            $this->createHorarioClase->handle($request),
             200
         );
     }
@@ -76,13 +87,16 @@ class HorarioClaseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Función para eliminar un horario de clase
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
-    public function destroy($id)
+    public function destroy(int $id): Response
     {
-        //
+        return response(
+            $this->destroyHorarioClase->handle($id),
+            200
+        );
     }
 }

@@ -58,4 +58,26 @@ class HorarioClaseRepository implements HorarioClaseRepositoryInterface {
             'horario' => $horario
         ])->get()->toArray();
     }
+
+    /**
+     * Función para consultar un horario de clase por id
+     *
+     * @param integer $id
+     * @return HorarioClaseModel
+     */
+    public function getById(int $id): HorarioClaseModel
+    {
+        return $this->horarioClase->find($id);
+    }
+
+    /**
+     * Función para eliminar un horario de clase
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public function delete(int $id): bool
+    {
+        return $this->getById($id)->delete();
+    }
 }

@@ -23,4 +23,20 @@ interface HorarioClaseRepositoryInterface {
      * @return array
      */
     public function getByClassAndDate(int $clase_id, int $horario): array;
+
+    /**
+     * Función para consultar un horario de clase por id
+     *
+     * @param integer $id
+     * @return HorarioClaseModel
+     */
+    public function getById(int $id): HorarioClaseModel;
+
+    /**
+     * Función para eliminar un horario de clase
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public function delete(int $id): bool;
 }
