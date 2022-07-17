@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\UseCases\Contracts\Modulos\HorarioClases\ShowHorarioClaseInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\CreateHorarioClaseInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\UpdateHorarioClaseInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\DestroyHorarioClaseInterface;
@@ -33,21 +34,31 @@ class HorarioClaseController extends Controller
     protected $updateHorarioClase;
 
     /**
+     * Implementación de ShowHorarioClaseInterface
+     *
+     * @var ShowHorarioClaseInterface
+     */
+    protected $showHorarioClase;
+
+    /**
      * Inyección de dependencias
      *
      * @param CreateHorarioClaseInterface $createHorarioClase
      * @param DestroyHorarioClaseInterface $destroyHorarioClase
      * @param UpdateHorarioClaseInterface $updateHorarioClase
+     * @param ShowHorarioClaseInterface $showHorarioClase
      */
     public function __construct(
         CreateHorarioClaseInterface $createHorarioClase,
         DestroyHorarioClaseInterface $destroyHorarioClase,
-        UpdateHorarioClaseInterface $updateHorarioClase
+        UpdateHorarioClaseInterface $updateHorarioClase,
+        ShowHorarioClaseInterface $showHorarioClase
     )
     {
         $this->createHorarioClase = $createHorarioClase;
         $this->destroyHorarioClase = $destroyHorarioClase;
         $this->updateHorarioClase = $updateHorarioClase;
+        $this->showHorarioClase = $showHorarioClase;
     }
 
     /**
@@ -75,14 +86,17 @@ class HorarioClaseController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Función para mostrar un horario de clase
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
-        //
+        return response(
+            $this->showHorarioClase->handle($id),
+            200
+        );
     }
 
     /**

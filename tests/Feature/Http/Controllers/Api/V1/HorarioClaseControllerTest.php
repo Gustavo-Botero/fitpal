@@ -156,4 +156,19 @@ class HorarioClaseControllerTest extends TestCase
             ]
         ]);
     }
+
+    public function test_show_class_schedule()
+    {
+        $horarioClase = HorarioClaseModel::factory()->create();
+
+        $response = $this->getJson("api/v1/horarioClase/$horarioClase->id");
+
+        $response->assertExactJson([
+            'data' => [
+                'clase_id' => $horarioClase['clase_id'],
+                'horario' => $horarioClase['horario'],
+                'instructor' => $horarioClase['instructor']
+            ]
+        ]);
+    }
 }

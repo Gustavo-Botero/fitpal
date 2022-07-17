@@ -27,6 +27,11 @@ class UseCaseServiceProvider extends ServiceProvider
             'App\UseCases\Contracts\Modulos\HorarioClases\UpdateHorarioClaseInterface',
             'App\UseCases\Modulos\HorarioClase\UpdateHorarioClaseUseCase'
         );
+
+        $this->app->bind(
+            'App\UseCases\Contracts\Modulos\HorarioClases\ShowHorarioClaseInterface',
+            'App\UseCases\Modulos\HorarioClase\ShowHorarioClaseUseCase'
+        );
     }
 
     /**
