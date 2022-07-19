@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers\Api\V1;
 
-use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\ClaseModel;
 use App\Models\HorarioClaseModel;
@@ -21,11 +20,9 @@ class HorarioClaseControllerTest extends TestCase
 
         $clase = ClaseModel::factory()->create();
 
-        $date = Carbon::now();
-
         $data = [
             'clase_id' => $clase->id,
-            'horario' => $date->toDateTimeString(),
+            'horario' => now()->toDateTimeString(),
             'instructor' => 'Gustavo Botero'
         ];
 
@@ -33,7 +30,7 @@ class HorarioClaseControllerTest extends TestCase
 
         $this->assertDatabaseHas('horario_clase', [
             'clase_id' => $data['clase_id'],
-            'horario' => $date->getTimestamp(),
+            'horario' => now()->getTimestamp(),
             'instructor' => $data['instructor']
         ]);
 
@@ -103,11 +100,9 @@ class HorarioClaseControllerTest extends TestCase
 
         $clase = ClaseModel::factory()->create();
 
-        $date = Carbon::now();
-
         $data = [
             'clase_id' => $clase->id,
-            'horario' => $date->toDateTimeString(),
+            'horario' => now()->toDateTimeString(),
             'instructor' => 'Gustavo Botero'
         ];
 
@@ -115,7 +110,7 @@ class HorarioClaseControllerTest extends TestCase
 
         $this->assertDatabaseHas('horario_clase', [
             'clase_id' => $data['clase_id'],
-            'horario' => $date->getTimestamp(),
+            'horario' => now()->getTimestamp(),
             'instructor' => $data['instructor']
         ]);
 
@@ -157,6 +152,9 @@ class HorarioClaseControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * Función para mostrar un horario de clase
+     */
     public function test_show_class_schedule()
     {
         $horarioClase = HorarioClaseModel::factory()->create();
@@ -170,5 +168,27 @@ class HorarioClaseControllerTest extends TestCase
                 'instructor' => $horarioClase['instructor']
             ]
         ]);
+    }
+
+    /**
+     * Función para consultar las clases que estén
+     * disponibles máximo en 8 días
+     */
+    public function test_list_class_schedule()
+    {
+        $horarioClaseModel = new HorarioClaseModel();
+
+        $dateMin = now()->getTimestamp();
+        $dateMax = now()->addDays(8)->getTimestamp();
+        $horarioClaseModel->factory(500)->create();
+
+        $response = $this->getJson('api/v1/horarioClase');
+
+        $listHorarioClase = $horarioClaseModel->whereBetween(
+            'horario',
+            [$dateMin, $dateMax]
+        )->paginate(10)->toArray();
+
+        $response->assertExactJson($listHorarioClase);
     }
 }

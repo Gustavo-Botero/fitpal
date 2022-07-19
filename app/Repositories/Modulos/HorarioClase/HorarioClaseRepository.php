@@ -98,4 +98,20 @@ class HorarioClaseRepository implements HorarioClaseRepositoryInterface {
 
         return $horarioClase;
     }
+
+    /**
+     * Función para consultar las clases que estén
+     * disponibles máximo en 8 días
+     *
+     * @param integer $dateMin
+     * @param integer $dateMax
+     * @return array
+     */
+    public function getSchedules(int $dateMin, int $dateMax): array
+    {
+        return $this->horarioClase->whereBetween(
+            'horario',
+            [$dateMin, $dateMax]
+        )->paginate(10)->toArray();
+    }
 }

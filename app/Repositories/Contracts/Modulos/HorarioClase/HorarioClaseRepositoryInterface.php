@@ -48,4 +48,14 @@ interface HorarioClaseRepositoryInterface {
      * @return HorarioClaseModel
      */
     public function update(Request $request, int $id): HorarioClaseModel;
+
+    /**
+     * Función para consultar las clases que estén
+     * disponibles máximo en 8 días
+     *
+     * @param integer $dateMin
+     * @param integer $dateMax
+     * @return array
+     */
+    public function getSchedules(int $dateMin, int $dateMax): array;
 }

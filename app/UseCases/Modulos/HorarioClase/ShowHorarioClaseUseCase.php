@@ -2,8 +2,8 @@
 
 namespace App\UseCases\Modulos\HorarioClase;
 
-use App\Repositories\Contracts\Modulos\HorarioClase\HorarioClaseRepositoryInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\ShowHorarioClaseInterface;
+use App\Repositories\Contracts\Modulos\HorarioClase\HorarioClaseRepositoryInterface;
 
 class ShowHorarioClaseUseCase implements ShowHorarioClaseInterface {
 
