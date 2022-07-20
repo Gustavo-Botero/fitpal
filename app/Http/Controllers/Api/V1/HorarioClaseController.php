@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HorarioClaseRequest;
 use App\UseCases\Contracts\Modulos\HorarioClases\ListHorarioClaseInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\ShowHorarioClaseInterface;
 use App\UseCases\Contracts\Modulos\HorarioClases\CreateHorarioClaseInterface;
@@ -88,10 +88,10 @@ class HorarioClaseController extends Controller
     /**
      * Función para crear un horario para la clase
      *
-     * @param Request $request
+     * @param HorarioClaseRequest $request
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(HorarioClaseRequest $request): Response
     {
         return response(
             $this->createHorarioClase->handle($request),
@@ -116,11 +116,11 @@ class HorarioClaseController extends Controller
     /**
      * Función para actualizar un horario de clase
      *
-     * @param Request $request
+     * @param HorarioClaseRequest $request
      * @param integer $id
      * @return Response
      */
-    public function update(Request $request, int $id): Response
+    public function update(HorarioClaseRequest $request, int $id): Response
     {
         return response(
             $this->updateHorarioClase->handle($request, $id),

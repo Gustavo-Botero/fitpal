@@ -191,4 +191,28 @@ class HorarioClaseControllerTest extends TestCase
 
         $response->assertExactJson($listHorarioClase);
     }
+
+    /**
+     * Validaciones
+     */
+    public function test_validate_store_class_schedule()
+    {
+        $this->postJson('api/v1/horarioClase', [])
+        ->assertJsonValidationErrors([
+            'clase_id',
+            'horario',
+            'instructor'
+        ]);
+    }
+
+    public function test_validate_update_class_schedule()
+    {
+        $horarioClaseModel = HorarioClaseModel::factory()->create();
+        $this->putJson("api/v1/horarioClase/$horarioClaseModel->id", [])
+        ->assertJsonValidationErrors([
+            'clase_id',
+            'horario',
+            'instructor'
+        ]);
+    }
 }
